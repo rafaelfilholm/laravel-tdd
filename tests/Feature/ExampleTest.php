@@ -15,24 +15,11 @@ class ExampleTest extends TestCase
      *
      * @return void
      */
-    public function testBasicTest()
+    public function testHomeResponseStatus()
     {
         $response = $this->get('/');
 
         $response->assertStatus(200);
-    }
-
-    public function testDatabaseUsers()
-    {
-        /* Create a user */
-        factory(\App\User::class)->create([
-            'email' => 'teste@teste.com'
-        ]);
-
-        /* Check if user exists */
-        $this->assertDatabaseHas('users', [
-            'email' => 'teste@teste.com'
-        ]);
     }
 
 }
