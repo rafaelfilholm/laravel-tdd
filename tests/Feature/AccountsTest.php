@@ -12,11 +12,9 @@ class AccountsTest extends TestCase
 	use DatabaseMigrations;
 
     /**
-     * A basic test example.
-     *
-     * @return void
+     * Test api list accounts
      */
-    public function testApiList()
+    public function testApiListAccounts()
     {
     	/**
     	 * Create 20 accounts
@@ -26,8 +24,8 @@ class AccountsTest extends TestCase
         /**
          * Get response of endpoint /api/accounts
          */
-        $response = $this->get('/api/accounts');
 
+        $response = $this->get('/api/accounts');
         /**
          * Checks if HTTP status code of request is 200
          * and if has $data of accounts
