@@ -6,6 +6,8 @@ use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 
 class AccountsTest extends TestCase
 {
@@ -145,6 +147,38 @@ class AccountsTest extends TestCase
         $response->assertStatus(200)
             ->assertJson($data->toArray());
 
+    }
+
+    /**
+     * Test of upload image on insert a account
+     */
+    public function testApiUploadOnInsert()
+    {
+        /**
+         * Make a object base in model Account
+         */
+        $data = factory(\App\Account::class)->make();
+        $data = $data->toArray();
+
+        /**
+         * Create a fake public storage
+         */
+        Storage::fake('public');
+
+        /**
+         * Set a fake image in $data
+         */
+        $data['bank_image'] = UploadedFile::fake()->image('bank_name.jpg', 200, 200);
+
+        /**
+         * Makes a POST request to /api/accounts passing $data
+         */
+        $response = $this->json('POST', '/api/accounts', $data);
+
+        /**
+         * Checks if has this image in disk storage
+         */
+        Storage::disk('public')->assertExists('images/bank_name.jpg');
     }
 
 }
