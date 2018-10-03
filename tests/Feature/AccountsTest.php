@@ -20,12 +20,13 @@ class AccountsTest extends TestCase
     	 * Create 20 accounts
     	 */
     	$data = factory(\App\Account::class, 20)->create();
-        
+
         /**
          * Get response of endpoint /api/accounts
          */
 
         $response = $this->get('/api/accounts');
+
         /**
          * Checks if HTTP status code of request is 200
          * and if has $data of accounts
@@ -33,4 +34,51 @@ class AccountsTest extends TestCase
         $response->assertStatus(200)
         	->assertJson(['data' => $data->toArray()]);
     }
+
+    /**
+     * Test api view one account
+     */
+    public function testApiViewOneAccount()
+    {
+        /**
+         * Create one account
+         */
+        $data = factory(\App\Account::class)->create();
+
+        /**
+         * Makes a GET request to /api/accounts/{id}
+         */
+        $response = $this->json('GET', '/api/accounts/' . $data->id);
+
+        /**
+         * Checks if HTTP status code of request is 200
+         * and if response has a JSON as $data
+        */
+        $response->assertStatus(200)
+            ->assertJson($data->toArray());
+    }
+
+    /**
+     * Test api endpoint of insert a account
+     */
+    public function testApiInsertAccount()
+    {
+        /**
+         * Make a object base in model Account
+         */
+        $data = factory(\App\Account::class)->make();
+
+        /**
+         * Makes a POST request to /api/accounts passing $data
+         */
+        $response = $this->json('POST', '/api/accounts', $data->toArray());
+
+        /**
+         * Checks if HTTP status code of request is 200
+         * and if response has a JSON as $data
+         */
+        $response->assertStatus(200)
+            ->assertJson($data->toArray());
+    }
+
 }
