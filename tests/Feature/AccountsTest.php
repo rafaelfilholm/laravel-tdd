@@ -53,9 +53,26 @@ class AccountsTest extends TestCase
         /**
          * Checks if HTTP status code of request is 200
          * and if response has a JSON as $data
-        */
+         */
         $response->assertStatus(200)
             ->assertJson($data->toArray());
+    }
+
+    /**
+     * Test API view one account that is not in database
+     */
+    public function testApiViewOneAccountThatIsNotInDatabase()
+    {
+
+        /**
+         * Makes a GET request to /api/accounts/{id}
+         */
+        $response = $this->json('GET', '/api/accounts/1');
+
+        /**
+         * Checks if HTTP status code of request is 404
+         */
+        $response->assertStatus(404);
     }
 
     /**
