@@ -59,7 +59,7 @@ class AccountsTest extends TestCase
     }
 
     /**
-     * Test api endpoint of insert a account
+     * Test api endpoint of insert an account
      */
     public function testApiInsertAccount()
     {
@@ -79,6 +79,32 @@ class AccountsTest extends TestCase
          */
         $response->assertStatus(200)
             ->assertJson($data->toArray());
+    }
+
+    /**
+     * Test api update an account
+     */
+    public function testApiUpdateAccount()
+    {
+        /**
+         * Create one account
+         */
+        $data = factory(\App\Account::class)->create();
+
+        $toUpdate = ['title' => 'Conta do Rafael'];
+
+
+        /**
+         * Makes a POST request to /api/accounts passing $data
+         */
+        $response = $this->json('PUT', '/api/accounts/' . $data->id, $toUpdate);
+
+        /**
+         * Checks if HTTP status code of request is 200
+         * and if response has a JSON as $data
+         */
+        $response->assertStatus(200)
+            ->assertJson($toUpdate);
     }
 
 }
