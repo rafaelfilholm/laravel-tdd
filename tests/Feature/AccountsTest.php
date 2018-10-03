@@ -107,4 +107,27 @@ class AccountsTest extends TestCase
             ->assertJson($toUpdate);
     }
 
+    /**
+     * Test api delete an account
+     */
+    public function testApiDeleteAccount()
+    {
+        /**
+         * Create one account
+         */
+        $data = factory(\App\Account::class)->create();
+
+        /**
+         * Makes a POST request to /api/accounts passing $data
+         */
+        $response = $this->json('DELETE', '/api/accounts/' . $data->id);
+
+        /**
+         * Checks if HTTP status code of request is 200
+         */
+        $response->assertStatus(200)
+            ->assertJson($data->toArray());
+
+    }
+
 }
