@@ -12,10 +12,19 @@ class UserTest extends TestCase
 
     public function testAuthentication()
     {
+        /**
+         * Create a new user
+         */
         $user = factory(\App\User::class)->create();
 
-        $response = $this->get('/home');
+        /**
+         * Try to access a guarded route with user data
+         */
+        $response = $this->actingAs($user)->get('/home');
 
+        /**
+         * Check if http code status is 200
+         */
         $response->assertStatus(200);
 
     }
