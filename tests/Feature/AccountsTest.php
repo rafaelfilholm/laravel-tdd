@@ -112,7 +112,7 @@ class AccountsTest extends TestCase
 
 
         /**
-         * Makes a POST request to /api/accounts passing $data
+         * Makes a PUT request to /api/accounts/{id} passing data to update
          */
         $response = $this->json('PUT', '/api/accounts/' . $data->id, $toUpdate);
 
@@ -135,7 +135,7 @@ class AccountsTest extends TestCase
         $data = factory(\App\Account::class)->create();
 
         /**
-         * Makes a POST request to /api/accounts passing $data
+         * Makes a DELETE request to /api/accounts/{id}
          */
         $response = $this->json('DELETE', '/api/accounts/' . $data->id);
 
